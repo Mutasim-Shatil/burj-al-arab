@@ -5,9 +5,14 @@ const Bookings = () => {
     const [bookings, setBookings] = useState([])
   const [loggedInUser, setLoggedInUser] = useContext(UserContext)
     useEffect(()=>{
-        fetch("http://localhost:4000/bookings?email="+ loggedInUser.email)
-        .then(res => res.json())
-        .then(data => setBookings(data))
+        fetch("http://localhost:4000/bookings?email=" + loggedInUser.email, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${sessionStorage.getItem("token")}`
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => setBookings(data));
     }, [])
     console.log(bookings);
     return (
